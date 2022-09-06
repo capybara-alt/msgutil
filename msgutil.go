@@ -15,6 +15,7 @@ var appMsgs map[string]interface{}
 const (
 	notFoundError = "Target error not found"
 	targetKeyNull = "Keys cannot be empty"
+	fileNotFound	= "Message resource file not found"
 )
 
 // Load json file then map to variable appMsgs
@@ -50,6 +51,10 @@ func Init(jsonpath string) error {
 		filename := filepath.Base(jsonfile)
 		filename = strings.Replace(filename, ".json", "", -1)
 		appMsgs[filename] = childAppMsg
+	}
+
+	if len(appMsgs) < 1 {
+		return errors.New(fileNotFound)
 	}
 
 

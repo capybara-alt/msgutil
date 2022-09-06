@@ -132,3 +132,10 @@ func TestArgNullError(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestFileNotFound(t *testing.T) {
+	err := msgutil.Init("./aaa/*.json")
+	if err.Error() != "Message resource file not found" {
+		t.Fail()
+	}
+}
