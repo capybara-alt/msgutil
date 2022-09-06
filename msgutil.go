@@ -13,7 +13,7 @@ import (
 
 var appMsgs map[string]interface{}
 const (
-	notFoundError = "Target error not found"
+	notFoundError = "Target message not found"
 	targetKeyNull = "Keys cannot be empty"
 	fileNotFound	= "Message resource file not found"
 )
