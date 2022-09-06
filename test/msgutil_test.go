@@ -8,8 +8,8 @@ import (
 )
 
 func TestGetMessage1(t *testing.T) {
-	msgutil.Init("./sample.json")
-	msgStr, err := msgutil.GetMassage("errors", "validate", "null")
+	msgutil.Init("./sample1/sample.json")
+	msgStr, err := msgutil.GetMassage("sample", "errors", "validate", "null")
 	if err != nil {
 		t.Fail()
 	}
@@ -20,8 +20,8 @@ func TestGetMessage1(t *testing.T) {
 }
 
 func TestGetMessage2(t *testing.T) {
-	msgutil.Init("./sample.json")
-	msgStr, err := msgutil.GetMassage("info", "login", "success")
+	msgutil.Init("./sample1/sample.json")
+	msgStr, err := msgutil.GetMassage("sample", "info", "login", "success")
 	if err != nil {
 		t.Fail()
 	}
@@ -31,9 +31,30 @@ func TestGetMessage2(t *testing.T) {
 	}
 }
 
+func TestGetMessageMultiFile(t *testing.T) {
+	msgutil.Init("./sample2/*.json")
+	msgStr, err := msgutil.GetMassage("en", "errors", "login", "fail")
+	if err != nil {
+		t.Fail()
+	}
+
+	if msgStr != "fail" {
+		t.Fail()
+	}
+
+	msgStr, err = msgutil.GetMassage("ja", "errors", "login", "fail")
+	if err != nil {
+		t.Fail()
+	}
+
+	if msgStr != "失敗" {
+		t.Fail()
+	}
+}
+
 func TestGetMessageArgs(t *testing.T) {
-	msgutil.Init("./sample.json")
-	msgStr, err := msgutil.GetMessageArgs([]string{"errors", "validate", "invalid-value"}, "A", strings.Join([]string{"A","B","C"}, " or "))
+	msgutil.Init("./sample1/sample.json")
+	msgStr, err := msgutil.GetMessageArgs([]string{"sample", "errors", "validate", "invalid-value"}, "A", strings.Join([]string{"A","B","C"}, " or "))
 	if err != nil {
 		t.Fail()
 	}
@@ -43,9 +64,30 @@ func TestGetMessageArgs(t *testing.T) {
 	}
 }
 
+func TestGetMessageArgsMultiFile(t *testing.T) {
+	msgutil.Init("./sample2/*.json")
+	msgStr, err := msgutil.GetMessageArgs([]string{"en", "errors", "validate", "invalid-value"}, "A", strings.Join([]string{"A","B","C"}, " or "))
+	if err != nil {
+		t.Fail()
+	}
+
+	if msgStr != "Column A must be A or B or C" {
+		t.Fail()
+	}
+
+	msgStr, err = msgutil.GetMessageArgs([]string{"ja", "errors", "validate", "invalid-value"}, "A", strings.Join([]string{"A","B","C"}, " もしくは "))
+	if err != nil {
+		t.Fail()
+	}
+
+	if msgStr != "項目 A に入力できる値は A もしくは B もしくは C のいずれかです" {
+		t.Fail()
+	}
+}
+
 func TestGetMessageArgsEmptyCase(t *testing.T) {
-	msgutil.Init("./sample.json")
-	msgStr, err := msgutil.GetMessageArgs([]string{"errors", "validate", "invalid-value"})
+	msgutil.Init("./sample1/sample.json")
+	msgStr, err := msgutil.GetMessageArgs([]string{"sample", "errors", "validate", "invalid-value"})
 	if err != nil {
 		t.Fail()
 	}
@@ -56,7 +98,7 @@ func TestGetMessageArgsEmptyCase(t *testing.T) {
 }
 
 func TestNotFoundError1(t *testing.T) {
-	msgutil.Init("./sample.json")
+	msgutil.Init("./sample1/sample.json")
 	msgStr, err := msgutil.GetMassage("aa")
 	if msgStr != "" {
 		t.Fail()
@@ -68,7 +110,7 @@ func TestNotFoundError1(t *testing.T) {
 }
 
 func TestNotFoundError2(t *testing.T) {
-	msgutil.Init("./sample.json")
+	msgutil.Init("./sample1/sample.json")
 	msgStr, err := msgutil.GetMassage("commongen", "aa")
 	if msgStr != "" {
 		t.Fail()
@@ -80,7 +122,7 @@ func TestNotFoundError2(t *testing.T) {
 }
 
 func TestArgNullError(t *testing.T) {
-	msgutil.Init("./sample.json")
+	msgutil.Init("./sample1/sample.json")
 	msgStr, err := msgutil.GetMassage()
 	if msgStr != "" {
 		t.Fail()

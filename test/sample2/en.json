@@ -1,0 +1,16 @@
+{
+    "errors": {
+        "validate": {
+            "null": "column.a cannot be null",
+            "invalid-value": "Column {{0}} must be {{1}}"
+        },
+				"login": {
+					"fail": "fail"
+				}
+    },
+    "info": {
+        "login": {
+            "success": "success!!"
+        }
+    }
+}

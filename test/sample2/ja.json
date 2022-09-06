@@ -1,0 +1,16 @@
+{
+    "errors": {
+        "validate": {
+            "null": "column.aはnullにできません",
+            "invalid-value": "項目 {{0}} に入力できる値は {{1}} のいずれかです"
+        },
+				"login": {
+					"fail": "失敗"
+				}
+    },
+    "info": {
+        "login": {
+            "success": "成功!!"
+        }
+    }
+}

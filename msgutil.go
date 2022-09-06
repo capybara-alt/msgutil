@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"reflect"
 	"strings"
 )
@@ -17,22 +18,40 @@ const (
 )
 
 // Load json file then map to variable appMsgs
-// This function must be called once in entrypoint
+// This function must be called once
 func Init(jsonpath string) error {
-	file, err := os.Open(jsonpath)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	b, err := ioutil.ReadAll(file)
+	jsonfiles, err := filepath.Glob(jsonpath)
 	if err != nil {
 		return err
 	}
 
-	if err = json.Unmarshal(b, &appMsgs); err != nil {
-		return err
+	appMsgs = make(map[string]interface{})
+	for _, jsonfile := range jsonfiles {
+		if filepath.Ext(jsonfile) != ".json" {
+			continue
+		}
+
+		file, err := os.Open(jsonfile)
+		if err != nil {
+			return err
+		}
+		defer file.Close()
+	
+		b, err := ioutil.ReadAll(file)
+		if err != nil {
+			return err
+		}
+	
+		childAppMsg := make(map[string]interface{})
+		if err = json.Unmarshal(b, &childAppMsg); err != nil {
+			return err
+		}
+
+		filename := filepath.Base(jsonfile)
+		filename = strings.Replace(filename, ".json", "", -1)
+		appMsgs[filename] = childAppMsg
 	}
+
 
 	return nil
 }
