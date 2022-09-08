@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/capybara-alt/msgutil"
+	"github.com/capybara-alt/msgutil/msgutil"
 )
 
 func TestGetMessage1(t *testing.T) {
@@ -104,7 +104,7 @@ func TestNotFoundError1(t *testing.T) {
 		t.Fail()
 	}
 
-	if err.Error() != "Target error not found" {
+	if err.Error() != "Target message not found" {
 		t.Fail()
 	}
 }
@@ -116,7 +116,7 @@ func TestNotFoundError2(t *testing.T) {
 		t.Fail()
 	}
 
-	if err.Error() != "Target error not found" {
+	if err.Error() != "Target message not found" {
 		t.Fail()
 	}
 }
